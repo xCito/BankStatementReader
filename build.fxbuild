@@ -1,0 +1,8 @@
+<?xl version="1.0" encoding="ASCII"?>
+<anttasks:AntTask xi:version="2.0" xlns:xi="http://www.og.org/XMI" xlns:anttasks="http://org.eclipse.fx.ide.jdt/1.0" buildDirectory="${project}/build">
+  <deploy>
+    <application nae="BankStateentAnalyzer"/>
+    <info/>
+  </deploy>
+  <signjar/>
+</anttasks:AntTask>

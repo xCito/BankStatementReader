@@ -1,0 +1,73 @@
+
+#thing {
+	-fx-stroke: green;
+	-fx-stroke-width: 5;
+}
+
+/* ------------------ Welcome View VBOX --------------------- */
+.welcomeText {
+	-fx-font-size: 6em;
+}
+
+.fileButton {
+	
+}
+
+/* ----------------- VBOX LEFT SIDE MENU -------------------- */
+.sideMenu {
+	-fx-padding: 5px;
+	-fx-background-color: #003459;
+}
+.menuButton {
+	-fx-text-fill: #007EA7;
+	-fx-font-size: 1.7em;
+	-fx-padding: 10px;
+	
+	-fx-border-radius: 0px;
+	-fx-background-color: none;
+	-fx-border-color: none;
+	-fx-font-size: 1.5em;
+}
+
+.menuButton:hover {
+	-fx-text-fill: #007EF7;
+	-fx-font-size: 1.7em;
+	-fx-padding: 10px;
+	
+	-fx-border-radius: 0px;
+	-fx-background-color: none;
+	-fx-border-color: none;
+	-fx-font-size: 1.7em;
+}
+
+
+/* -------------------- Center VBOX----------------------- */
+.centerVbox {
+	-fx-padding: 10px;
+}
+
+/* ------------------- Input Section --------------------- */
+
+#heading {
+	-fx-font-size: 2.5em;	
+}
+.customLabel {
+	-fx-text-fill: #00A7E1;
+	-fx-font-size: 1.1em;
+	-fx-padding: 5px;
+}
+.analyzeButton {
+	-fx-border-radius: 0px;
+	-fx-background-color: white;
+	-fx-text-fill: #00171F;
+	-fx-border-color: blue;
+	-fx-padding: 10 10 10 10;
+	-fx-font-size: 2em;
+}
+.analyzeButton:hover {
+	-fx-background-color: #007AE7;
+	-fx-text-fill: #003459;
+}
+
+
+

@@ -1,0 +1,50 @@
+import java.time.LocalDate;
+
+//import java.time.LocalDate;
+
+public class Transaction {
+	
+	String name;
+	LocalDate date;
+	double amount;
+	String type; 		//(expense, deposit, withdraw)
+	
+	public Transaction(String nm, double amt, LocalDate dt, String tp) {
+		this.name = nm;
+		this.amount = amt;
+		this.date = dt;
+		this.type = tp;
+	}
+	
+	// Getter
+	public String getName() {
+		return name;
+	}
+	public double getAmount() {
+		return amount;
+	}
+	public String getType() {
+		return type;
+	}
+	public String getDate() {
+		return date.toString();
+	}
+	
+	// Setter
+	public void setName( String n ) {
+		name = n;
+	}
+	public void setAmount( double amt ) {
+		amount = amt;
+	}
+	public void setType( String t ) {
+		type = t;
+	}
+	public void setDate( LocalDate d ) {
+		date = d;
+	}
+	
+	public String toString() {
+		return date.toString() + "," + name + "," + amount + "," + type;
+	}
+}
