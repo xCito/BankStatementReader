@@ -20,8 +20,8 @@ public class Transaction {
 	public String getName() {
 		return name;
 	}
-	public double getAmount() {
-		return amount;
+	public Double getAmount() {
+		return amount; //String.format("$%.2f", amount);
 	}
 	public String getType() {
 		return type;

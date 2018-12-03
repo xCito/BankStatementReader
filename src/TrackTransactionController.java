@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.util.List;
+
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -7,7 +10,7 @@ import javafx.scene.layout.VBox;
 
 public class TrackTransactionController {
 	
-	LineChart<Number,Number> chart;
+	LineChart<String,Number> chart;
 	TableView<Transaction> table;
 	TextField input;
 	DatePicker fromDate;
@@ -15,15 +18,18 @@ public class TrackTransactionController {
 	Button analyzeBtn;
 	
 	TrackTransactionView view;
+	TrackTransactionModel model;
 	
 	public TrackTransactionController () {
-		view 	= new TrackTransactionView();
+		view 		= new TrackTransactionView();
+		model 		= new TrackTransactionModel();
 		chart 		= view.getChart();
 		table 		= view.getTable();
 		input		= view.getTransactionTextField();
 		fromDate	= view.getFromDatePicker();
 		toDate		= view.getToDatePicker();
 		analyzeBtn  = view.getAnalyzeButton();
+		analyzeBtn.setOnAction( e -> buttonAction() );
 	}
 	
 	public VBox getView() {
@@ -31,6 +37,15 @@ public class TrackTransactionController {
 	}
 	
 	// Handle button click
+	public void buttonAction() {
+		String transactionName = input.getText();
+		LocalDate from = fromDate.getValue();
+		LocalDate to = toDate.getValue();
+		
+		List<Transaction> result = model.getTransactionsBetween(transactionName, from, to);
+		view.addToTable(result);
+
+	}
 	
 	// Handle plotting data points
 	

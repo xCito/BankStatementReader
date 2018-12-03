@@ -22,8 +22,10 @@ public class WelcomeView {
 	Button fileBtn;
 	Text numFilesLbl;
 	ListView<Image> listview;
+	ObservableList<Image> imgList;
 	
 	public WelcomeView() {
+		imgList = FXCollections.observableArrayList();
 		main = createWelcomeView();
 	}
 	
@@ -88,20 +90,15 @@ public class WelcomeView {
 		HBox hbox = new HBox();
 		listview = createListView();
 		HBox.setHgrow(listview, Priority.ALWAYS);
-		
-		String img1 = "http://b.static.trunity.net/files/299501_299600/299598/vertical-farming-chris-jacobs.jpg";
-		Image img = new Image(img1);
-		
-		ObservableList<Image> value = FXCollections.observableArrayList(img);
-		listview.setItems( value );
-		
+
+		listview.setItems( imgList );
 		hbox.getChildren().add( listview );
 		
 		return hbox;
 	}
 	
 	public void setImages(List<Image> imgs) {
-		ObservableList<Image> value = FXCollections.observableArrayList(imgs);
-		listview.setItems( value );
+		imgList.clear();
+		imgList.addAll(imgs);
 	}
 }

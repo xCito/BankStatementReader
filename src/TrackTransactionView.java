@@ -1,10 +1,13 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.LineChart.SortingPolicy;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
@@ -27,7 +30,7 @@ public class TrackTransactionView {
 	VBox main;
 	HBox topSection;
 	HBox botSection;
-	LineChart<Number,Number> chart;
+	LineChart<String,Number> chart;
 	GridPane grid;
 
 	Label heading;
@@ -57,7 +60,7 @@ public class TrackTransactionView {
 	public VBox getView() {
 		return main;
 	}
-	public LineChart<Number,Number> getChart() {
+	public LineChart<String,Number> getChart() {
 		return chart;
 	}
 	public Button getAnalyzeButton() {
@@ -89,18 +92,28 @@ public class TrackTransactionView {
     	return hbox;
     }
     
-    private LineChart<Number,Number> createLineChart() {
-    	NumberAxis xAxis = new NumberAxis(0, 100, 10);
+    private LineChart<String,Number> createLineChart() {
+    	CategoryAxis xAxis = new CategoryAxis();
     	NumberAxis yAxis = new NumberAxis(0, 100, 10);
-    	LineChart<Number,Number> chart = new LineChart<>(xAxis, yAxis);
+    	LineChart<String,Number> chart = new LineChart<String,Number>(xAxis, yAxis);
+    	chart.setAxisSortingPolicy(SortingPolicy.X_AXIS);
     	
-    	Series<Number, Number> series = new XYChart.Series<>();
-    	series.getData().add( new XYChart.Data<>(10,44) );
-    	series.getData().add( new XYChart.Data<>(20,44) );
-    	series.getData().add( new XYChart.Data<>(30,66) );
-    	series.getData().add( new XYChart.Data<>(80,77) );
-    	series.getData().add( new XYChart.Data<>(90,90) );
+    	Series<String, Number> series = new XYChart.Series<>();
+    	series.getData().add( new XYChart.Data<String,Number>("2018-11-30",24) );
+    	series.getData().add( new XYChart.Data<String,Number>("June",14) );
+    	series.getData().add( new XYChart.Data<String,Number>("",84) );
+    	series.getData().add( new XYChart.Data<String,Number>("X",44) );
+    	series.getData().add( new XYChart.Data<String,Number>("Z",54) );
+    	series.getData().add( new XYChart.Data<String,Number>("W",74) );
+    	
+    	
+    	series.getData().sort( (XYChart.Data<String,Number> o1, XYChart.Data<String,Number> o2) -> { 
+    			return o1.getXValue().compareTo( o2.getXValue() );
+    		} 
+    	); // <---
+
     	chart.getData().add(series);
+    	
     	
     	return chart;
     }
@@ -190,15 +203,31 @@ public class TrackTransactionView {
     	typeCol.setMinWidth(100);
     	typeCol.setCellValueFactory( new PropertyValueFactory<>("type"));
     		
-    	nameCol.prefWidthProperty().bind(table.widthProperty().divide(4)); 		// w * 1/4
-    	amountCol.prefWidthProperty().bind(table.widthProperty().divide(4)); 	// w * 1/4
-    	dateCol.prefWidthProperty().bind(table.widthProperty().divide(4)); 		// w * 1/4
-    	typeCol.prefWidthProperty().bind(table.widthProperty().divide(4)); 		// w * 1/4
+    	nameCol.prefWidthProperty().bind(table.widthProperty().divide(2)); 		// w * 1/4
+    	amountCol.prefWidthProperty().bind(table.widthProperty().divide(6)); 	// w * 1/4
+    	dateCol.prefWidthProperty().bind(table.widthProperty().divide(6)); 		// w * 1/4
+    	typeCol.prefWidthProperty().bind(table.widthProperty().divide(6)); 		// w * 1/4
     	table.getColumns().add(nameCol);
     	table.getColumns().add(amountCol);
     	table.getColumns().add(dateCol);
     	table.getColumns().add(typeCol);
     	
     	return table;
+    }
+    
+    public void addToTable(List<Transaction> rows) {
+    	table.getItems().clear();
+    	table.getItems().addAll(rows);
+    }
+    
+    public void addToChart(List<Transaction> points) {
+    	chart.getData().clear();
+    	
+    	Series<String, Number> series = new XYChart.Series<>();
+    	for(Transaction t: points) {
+    		series.getData().add( new XYChart.Data<String,Number>("",44) );
+    	}
+    	chart.getData().add(series);
+    	
     }
 }

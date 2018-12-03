@@ -35,7 +35,6 @@ public class WelcomeController {
 	}
 	
 	private FileChooser setUpFileChooser() {
-		
 		FileChooser chooser = new FileChooser();
 		chooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("PDF", "*.pdf") );
@@ -50,9 +49,8 @@ public class WelcomeController {
 			view.numFilesLbl.setText("Number of BankStatements Attached: " + model.getNumFiles());
 			List<Image> images = model.getImagesOfPDF();
 			view.setImages(images);
+			model.extractData(files);
 		}
-		
-		
 	}
 	
 	

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -32,10 +31,12 @@ public class WelcomeModel {
 	// deletes all previous elements
 	// and sets new list of elements as values in list
 	public void setFiles(List<File> listOfFiles) {
+		images.clear();
+		pdfs.clear();
 		files.clear();
+		
 		files.addAll(listOfFiles);
 
-		pdfs.clear();
 		try {
 			for( File file: files) {
 				PDDocument pdfFile;
@@ -74,4 +75,15 @@ public class WelcomeModel {
 		return images;
 	}
 	
+	public void extractData(List<File> pdfFiles) {
+		ChaseStatementAnalyzer chase = new ChaseStatementAnalyzer();
+		
+		for(File pdf: pdfFiles) {
+			System.out.println("Name: " + pdf.getName());
+			chase.setStatement(pdf);
+			chase.analyze();
+			ArrayList<Transaction> trans = chase.getTransactions();
+			ApplicationController.data.put(pdf.getName(), trans);
+		}
+	}
 }

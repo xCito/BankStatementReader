@@ -15,7 +15,6 @@
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.Month;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -30,6 +29,10 @@ public class ChaseStatementAnalyzer {
 	PDDocument pdf;
 	ArrayList<Transaction> allTrans;
 	
+	public ChaseStatementAnalyzer() {
+		file = null;
+		allTrans = new ArrayList<>();
+	}
 	public ChaseStatementAnalyzer( String filename ) {
 		file = new File( filename );
 		allTrans = new ArrayList<>();
@@ -43,16 +46,19 @@ public class ChaseStatementAnalyzer {
 	public boolean analyze() {
 		// Find all transactions and hold them in list 
 		// if analyzer was successful return true, else false.
+		if(file == null)
+			return false;
 		
 		try {
 			PDDocument pdf = PDDocument.load( file );
 			PDFTextStripper stripper = new PDFTextStripper();
 			String text = stripper.getText( pdf );
-			System.out.println(text);
+			//System.out.println(text);
 			
 			regexSearch(text);
 			
 			pdf.close();
+			return true;
 			
 		} catch (IOException e) {
 			System.out.println("could not obtain pdf file.");
@@ -73,31 +79,35 @@ public class ChaseStatementAnalyzer {
 		Matcher matchTrans = tranPatt.matcher(text);
 		
 		String year = "2000";
-		int monthInt;
+		//int monthInt;
 		
 		if ( matchYear.find() ) {
-			System.out.println("->" + matchYear.group()  + "<-");
-			System.out.println("->" + matchYear.group(1) + "<-");
-			System.out.println("->" + matchYear.group(2) + "<-");
+			// System.out.println("->" + matchYear.group()  + "<-");
+			// System.out.println("->" + matchYear.group(1) + "<-");
+			// System.out.println("->" + matchYear.group(2) + "<-");
 
 			year = matchYear.group(2);
 		}
 		
 		System.out.println("Regex Result: ");
 		while( matchTrans.find() ) {
-			System.out.println("--> " + matchTrans.group() + " <--");
-			System.out.println("\tDate: " + matchTrans.group(1));
-			System.out.println("\tName: " + matchTrans.group(2));
-			System.out.println("\tAmt : " + matchTrans.group(3));
+			// System.out.println("--> " + matchTrans.group() + " <--");
+			// System.out.println("\tDate: " + matchTrans.group(1));
+			// System.out.println("\tName: " + matchTrans.group(2));
+			// System.out.println("\tAmt : " + matchTrans.group(3));
 			
 			String monthDay = matchTrans.group(1);
 			String tranName = matchTrans.group(2);
 			Double amount  = Double.valueOf(matchTrans.group(3).replaceAll("[\\$,]" , ""));
 			String type = "expense";
 			
+			
 			String formattedDate = matchTrans.group(1) + "/" + year;
+			//System.out.println("----?>" + formattedDate);
 			LocalDate date = getLocalDateFromString( formattedDate );
-				
+			tranName = tranName.replaceAll("(Card\\sPurchase\\s)?(\\d\\d\\/\\d\\d\\s)?(With\\sPin\\s)?", "");	
+			
+			//System.out.println("--------->" + date.toString());
 			allTrans.add( new Transaction( tranName, amount, date, type ));
 		}
 	}
@@ -112,9 +122,19 @@ public class ChaseStatementAnalyzer {
 		return LocalDate.of(year, month, day);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Transaction> getTransactions() {
-		// Retrieve all transactions found in bankstatement
-		
-		return allTrans;
+
+		return (ArrayList<Transaction>) allTrans.clone();
 	}
+	
+	public void setStatement(File f) {
+		this.file = f;
+		allTrans.clear();
+	}
+	public void setStatement(String f) {
+		this.file = new File(f);
+		allTrans.clear();
+	}
+	
 }
