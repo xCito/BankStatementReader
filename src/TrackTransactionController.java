@@ -20,7 +20,12 @@ public class TrackTransactionController {
 	TrackTransactionView view;
 	TrackTransactionModel model;
 	
+	LocalDate debugDate;
+	
 	public TrackTransactionController () {
+		
+		debugDate = LocalDate.of(1990, 1, 1);
+		
 		view 		= new TrackTransactionView();
 		model 		= new TrackTransactionModel();
 		chart 		= view.getChart();
@@ -44,7 +49,10 @@ public class TrackTransactionController {
 		
 		List<Transaction> result = model.getTransactionsBetween(transactionName, from, to);
 		view.addToTable(result);
-
+		view.setPoints(result);
+		
+		//view.addRandomPoint(debugDate);
+		//debugDate = debugDate.plusMonths(1);
 	}
 	
 	// Handle plotting data points

@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 //import java.time.LocalDate;
 
@@ -29,6 +31,10 @@ public class Transaction {
 	public String getDate() {
 		return date.toString();
 	}
+	public String getDateFormatted() {
+		return date.getMonth().getDisplayName(TextStyle.SHORT, Locale.US) + " " + date.getDayOfMonth() + ", " + date.getYear();
+	}
+	
 	
 	// Setter
 	public void setName( String n ) {
@@ -43,6 +49,7 @@ public class Transaction {
 	public void setDate( LocalDate d ) {
 		date = d;
 	}
+	
 	
 	public String toString() {
 		return date.toString() + "," + name + "," + amount + "," + type;

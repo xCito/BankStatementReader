@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +31,10 @@ public class TrackTransactionView {
 	HBox topSection;
 	HBox botSection;
 	LineChart<String,Number> chart;
+	CategoryAxis xAxis;
+	NumberAxis yAxis;
+	Series<String,Number> series;
+	
 	GridPane grid;
 
 	Label heading;
@@ -43,9 +47,11 @@ public class TrackTransactionView {
 	Button button;
 	
 	TableView<Transaction> table;
+	Series<String,Number> randSeries;
 	
 	
 	public TrackTransactionView() {
+		randSeries = new XYChart.Series<>();		// DEBUGGING
 		main = new VBox();
 		topSection = createTopSection();
 		botSection = createBotSection();
@@ -93,19 +99,21 @@ public class TrackTransactionView {
     }
     
     private LineChart<String,Number> createLineChart() {
-    	CategoryAxis xAxis = new CategoryAxis();
-    	NumberAxis yAxis = new NumberAxis(0, 100, 10);
+    	xAxis = new CategoryAxis();
+    	yAxis = new NumberAxis(0, 100, 10);
+    	yAxis.setAutoRanging(true);
     	LineChart<String,Number> chart = new LineChart<String,Number>(xAxis, yAxis);
     	chart.setAxisSortingPolicy(SortingPolicy.X_AXIS);
     	
-    	Series<String, Number> series = new XYChart.Series<>();
-    	series.getData().add( new XYChart.Data<String,Number>("2018-11-30",24) );
-    	series.getData().add( new XYChart.Data<String,Number>("June",14) );
-    	series.getData().add( new XYChart.Data<String,Number>("",84) );
-    	series.getData().add( new XYChart.Data<String,Number>("X",44) );
-    	series.getData().add( new XYChart.Data<String,Number>("Z",54) );
-    	series.getData().add( new XYChart.Data<String,Number>("W",74) );
-    	
+    	series = new XYChart.Series<>();
+    	series.getData().add( new XYChart.Data<String,Number>("2018-08-06",21) );
+    	series.getData().add( new XYChart.Data<String,Number>("2018-08-07",31) );
+    	series.getData().add( new XYChart.Data<String,Number>("2018-08-08",41) );
+    	series.getData().add( new XYChart.Data<String,Number>("2018-08-09",51) );
+    	series.getData().add( new XYChart.Data<String,Number>("2018-08-10",61) );
+    	series.getData().add( new XYChart.Data<String,Number>("2018-08-11",71) );
+    	series.getData().add( new XYChart.Data<String,Number>("2018-08-21",11) );
+    
     	
     	series.getData().sort( (XYChart.Data<String,Number> o1, XYChart.Data<String,Number> o2) -> { 
     			return o1.getXValue().compareTo( o2.getXValue() );
@@ -113,8 +121,7 @@ public class TrackTransactionView {
     	); // <---
 
     	chart.getData().add(series);
-    	
-    	
+
     	return chart;
     }
     
@@ -187,26 +194,26 @@ public class TrackTransactionView {
     	ObservableList<Transaction> list = FXCollections.observableArrayList(trans);
     	table.setItems( list );
     	
-    	TableColumn<Transaction, String> nameCol = new TableColumn<>("Column111");
+    	TableColumn<Transaction, String> nameCol = new TableColumn<>("Name");
     	nameCol.setMinWidth(150);
     	nameCol.setCellValueFactory( new PropertyValueFactory<>("name"));
     	
-    	TableColumn<Transaction, Double> amountCol = new TableColumn<>("Column222");
+    	TableColumn<Transaction, Double> amountCol = new TableColumn<>("Amount $$$");
     	amountCol.setMinWidth(100);
     	amountCol.setCellValueFactory( new PropertyValueFactory<>("amount"));
     	
-    	TableColumn<Transaction, String> dateCol = new TableColumn<>("Column333");
+    	TableColumn<Transaction, String> dateCol = new TableColumn<>("Date");
     	dateCol.setMinWidth(100);
     	dateCol.setCellValueFactory( new PropertyValueFactory<>("date"));
     	
-    	TableColumn<Transaction, String> typeCol = new TableColumn<>("Column444");
+    	TableColumn<Transaction, String> typeCol = new TableColumn<>("Type");
     	typeCol.setMinWidth(100);
     	typeCol.setCellValueFactory( new PropertyValueFactory<>("type"));
     		
     	nameCol.prefWidthProperty().bind(table.widthProperty().divide(2)); 		// w * 1/4
-    	amountCol.prefWidthProperty().bind(table.widthProperty().divide(6)); 	// w * 1/4
-    	dateCol.prefWidthProperty().bind(table.widthProperty().divide(6)); 		// w * 1/4
-    	typeCol.prefWidthProperty().bind(table.widthProperty().divide(6)); 		// w * 1/4
+    	amountCol.prefWidthProperty().bind(table.widthProperty().divide(8)); 	// w * 1/4
+    	dateCol.prefWidthProperty().bind(table.widthProperty().divide(8)); 		// w * 1/4
+    	typeCol.prefWidthProperty().bind(table.widthProperty().divide(8)); 		// w * 1/4
     	table.getColumns().add(nameCol);
     	table.getColumns().add(amountCol);
     	table.getColumns().add(dateCol);
@@ -220,14 +227,34 @@ public class TrackTransactionView {
     	table.getItems().addAll(rows);
     }
     
-    public void addToChart(List<Transaction> points) {
-    	chart.getData().clear();
+    public void setRange(LocalDate from, LocalDate to) {
     	
-    	Series<String, Number> series = new XYChart.Series<>();
-    	for(Transaction t: points) {
-    		series.getData().add( new XYChart.Data<String,Number>("",44) );
-    	}
-    	chart.getData().add(series);
+    }
+    
+    /**
+     * Using the date and amount of a Transaction, plots a point
+     * onto the LineChart. 
+     * @param transactions
+     */
+    public void setPoints( List<Transaction> transactions ) {
+    	List<XYChart.Data<String,Number>> points = new ArrayList<>();
     	
+    	for(Transaction t: transactions) 
+    		points.add( new XYChart.Data<String,Number>(t.date.toString(), t.amount) );
+    	
+    	series.getData().setAll(points);
+    	series.getData().sort( (XYChart.Data<String,Number> o1, XYChart.Data<String,Number> o2) -> { 
+				return o1.getXValue().compareTo( o2.getXValue() );
+			} 
+    	); // <--- close sort()
+    	
+    	
+    }
+    
+    // FOR DEBUGGING / TESTING
+    public void addRandomPoint(LocalDate date) {
+
+    	Random r = new Random();
+    	randSeries.getData().add( new XYChart.Data<String,Number>(date.toString(),r.nextInt(200)) );
     }
 }
