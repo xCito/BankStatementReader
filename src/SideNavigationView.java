@@ -1,6 +1,5 @@
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -47,9 +46,9 @@ public class SideNavigationView {
     	trackTra = new Button("Track Transaction");
     	settings = new Button("Settings");
     	
-    	overview.getStyleClass().add("menuButton");	// Apply css style class to label 
-    	analysis.getStyleClass().add("menuButton");  // Apply css style class to label
-    	trackTra.getStyleClass().add("menuButton");  // Apply css style class to label
+    	overview.getStyleClass().add("menuButton");		// Apply css style class to label 
+    	analysis.getStyleClass().add("menuButton");  	// Apply css style class to label
+    	trackTra.getStyleClass().add("menuButton");  	// Apply css style class to label
     	settings.getStyleClass().add("menuButton"); 	// Apply css style class to label
     	
     	vbox.getChildren().add( iv );			// Add image

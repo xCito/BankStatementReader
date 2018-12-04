@@ -50,7 +50,7 @@ public class TrackTransactionController {
 		List<Transaction> result = model.getTransactionsBetween(transactionName, from, to);
 		view.addToTable(result);
 		view.setPoints(result);
-		
+	
 		//view.addRandomPoint(debugDate);
 		//debugDate = debugDate.plusMonths(1);
 	}

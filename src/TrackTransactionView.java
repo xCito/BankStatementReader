@@ -37,6 +37,7 @@ public class TrackTransactionView {
 	
 	GridPane grid;
 
+	Text text;
 	Label heading;
 	Label transact;
 	Label fromDate;
@@ -171,10 +172,8 @@ public class TrackTransactionView {
     	HBox hbox = new HBox();
     	
     	FlowPane flow = new FlowPane();
-    	Text text = new Text("Chart description");
+    	text = new Text("Chart description");
     	text.setWrappingWidth(300);
-    	for(int i=0; i<100; i++)
-    		text.setText( text.getText()+"Yoo" );
     	
     	
     	flow.getChildren().add( text );
