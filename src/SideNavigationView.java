@@ -6,11 +6,11 @@ import javafx.scene.layout.VBox;
 
 public class SideNavigationView {
 
-	VBox sideNav;
-	Button overview;
-	Button analysis;
-	Button trackTra;
-	Button settings;
+	VBox sideNav;			// Container for Side Navigation Bar
+	Button overviewBtn;		// Button to welcome view
+	Button trackTraBtn;		// Button to track transaction view
+	Button analysisBtn;		// Button to spending analysis view
+	Button settingsBtn;		// Button to settings view (unused)
 	
 	
 	public SideNavigationView() {
@@ -22,16 +22,16 @@ public class SideNavigationView {
 		return sideNav;
 	}
 	public Button getOverviewButton() {
-		return overview;
+		return overviewBtn;
 	}
 	public Button getAnalysisButton() {
-		return analysis;
+		return analysisBtn;
 	}
-	public Button getTrackTransactionButton() {
-		return trackTra;
+	public Button getTrackTransButton() {
+		return trackTraBtn;
 	}
 	public Button getSettingsButton() {
-		return settings;
+		return settingsBtn;
 	}
 	
 	
@@ -41,21 +41,21 @@ public class SideNavigationView {
     	ImageView iv = new ImageView();
     	iv.setImage(img);
     	
-    	overview = new Button("Overview");
-    	analysis = new Button("Full Analysis");
-    	trackTra = new Button("Track Transaction");
-    	settings = new Button("Settings");
+    	overviewBtn = new Button("Overview");
+    	trackTraBtn = new Button("Track Transaction");
+    	analysisBtn = new Button("Full Analysis");
+    	settingsBtn = new Button("Settings");
     	
-    	overview.getStyleClass().add("menuButton");		// Apply css style class to label 
-    	analysis.getStyleClass().add("menuButton");  	// Apply css style class to label
-    	trackTra.getStyleClass().add("menuButton");  	// Apply css style class to label
-    	settings.getStyleClass().add("menuButton"); 	// Apply css style class to label
+    	overviewBtn.getStyleClass().add("menuButton");		// Apply css style class to label
+    	trackTraBtn.getStyleClass().add("menuButton");  	// Apply css style class to label
+    	analysisBtn.getStyleClass().add("menuButton");  	// Apply css style class to label
+    	settingsBtn.getStyleClass().add("menuButton"); 		// Apply css style class to label
     	
     	vbox.getChildren().add( iv );			// Add image
-    	vbox.getChildren().add( overview );		// Add Label
-    	vbox.getChildren().add( trackTra );		// Add Label
-    	vbox.getChildren().add( analysis );		// Add Label
-    	vbox.getChildren().add( settings );		// Add Label
+    	vbox.getChildren().add( overviewBtn );		// Add Label
+    	vbox.getChildren().add( trackTraBtn );		// Add Label
+    	vbox.getChildren().add( analysisBtn );		// Add Label
+    	vbox.getChildren().add( settingsBtn );		// Add Label
     	
     	vbox.getStyleClass().add("sideMenu");	// Add style
     	vbox.setAlignment(Pos.BASELINE_CENTER);	// Center align horizontally
