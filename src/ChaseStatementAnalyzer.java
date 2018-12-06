@@ -9,7 +9,10 @@
  *         MM/DD  Name_of_transaction_description 000.00
  * 	 - Transaction information is on 1 Line.
  * 
- *
+ *  WARNING: 
+ *   - May not find all transactions in bank statement
+ *   - Withdraws, Deposits, Fees, etc. are considered 
+ *   	transactions.
  */
 
 
