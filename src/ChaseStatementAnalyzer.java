@@ -29,20 +29,49 @@ public class ChaseStatementAnalyzer {
 	PDDocument pdf;
 	ArrayList<Transaction> allTrans;
 	
+	/**
+	 * Constructor
+	 * Initializes ChaseStatementAnalyzer object
+	 */
 	public ChaseStatementAnalyzer() {
-		file = null;
+		this.file = null;
 		allTrans = new ArrayList<>();
 	}
+	
+	/**
+	 * Constructor
+	 * Initializes ChaseStatementAnalyzer object
+	 * @param filename - Full file name to a PDF Chase Bank 
+	 *                   Statement
+	 */
 	public ChaseStatementAnalyzer( String filename ) {
-		file = new File( filename );
+		this.file = new File( filename );
 		allTrans = new ArrayList<>();
 	}
 	
-	public ChaseStatementAnalyzer( File f ) {
-		file = f;
+	/**
+	 * Constructor
+	 * Initializes ChaseStatementAnalyzer object
+	 * @param file - File object containing reference to a PDF
+	 *               Chase Bank Statement
+	 */
+	public ChaseStatementAnalyzer( File file ) {
+		this.file = file;
 		allTrans = new ArrayList<>();
 	}
 	
+	// ----------------
+	
+	/**
+	 * Using PDFBOX lib, loads PDF file to extract
+	 * text as String. Collects matched String patterns
+	 * using Regex. Creates Transaction objects using information 
+	 * from matched Strings.
+	 * @return True - File is readable
+	 * 				  Text was extracted successfully
+	 * 				  information may have been extracted
+	 * 	       False- Not able to read file
+	 */
 	public boolean analyze() {
 		// Find all transactions and hold them in list 
 		// if analyzer was successful return true, else false.
@@ -53,7 +82,7 @@ public class ChaseStatementAnalyzer {
 			PDDocument pdf = PDDocument.load( file );
 			PDFTextStripper stripper = new PDFTextStripper();
 			String text = stripper.getText( pdf );
-			//System.out.println(text);
+			System.out.println(text);
 			
 			regexSearch(text);
 			
@@ -68,7 +97,13 @@ public class ChaseStatementAnalyzer {
 		return false;
 	}
 	
-	public void regexSearch( String text ) {
+	/**
+	 * Pattern matches for Date (Month,Day,Year). Pattern matches for a 
+	 * transactions (MonthDay,Name,Amount). Creates Transaction object
+	 * and add to 'allTrans' List Object. 
+	 * @param text - All Text from a PDF Bank Statement
+	 */
+	private void regexSearch( String text ) {
 		String date2Regex = "([A-Za-z]+)\\s[0-3][0-9],\\s(\\d{4})";
 		String dateRegex = "(\\d\\d/\\d\\d)";
 		String moneyRegex = "\\s\\$?([\\d,]+\\.\\d\\d)";
@@ -103,17 +138,20 @@ public class ChaseStatementAnalyzer {
 			
 			
 			String formattedDate = matchTrans.group(1) + "/" + year;
-			//System.out.println("----?>" + formattedDate);
 			LocalDate date = getLocalDateFromString( formattedDate );
 			tranName = tranName.replaceAll("(Card\\sPurchase\\s)?(\\d\\d\\/\\d\\d\\s)?(With\\sPin\\s)?", "");	
-			
-			//System.out.println("--------->" + date.toString());
+
 			allTrans.add( new Transaction( tranName, amount, date, type ));
 		}
 	}
 	
-	// Indexes		  01 34 6789
-	// Assumed format MM/DD/YYYY
+	/**
+	 * @param date - String that follows MM/DD/YYYY pattern
+	 * @return LocalDate Object of date that follows MM/DD/YYYY pattern
+	 * 
+	 * COULD THROW EXCEPTIONS IF NOT CORRECT FORMAT
+	 */
+
 	public LocalDate getLocalDateFromString( String date )  {
 		int month 	= Integer.valueOf(date.substring(0, 2));
 		int day 	= Integer.valueOf(date.substring(3, 5));
@@ -122,18 +160,34 @@ public class ChaseStatementAnalyzer {
 		return LocalDate.of(year, month, day);
 	}
 	
+	/**
+	 * @return Shallow copy of ArrayList with transactions 
+	 * extracted from last PDF analyzed. (Last time analyze() was called).
+	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Transaction> getTransactions() {
 
 		return (ArrayList<Transaction>) allTrans.clone();
 	}
 	
+	
+	/**
+	 * Sets a new Chase Bank Statement PDF and clears ArrayList
+	 * of extracted transactions. 
+	 * @param f - The Chase Bank Statement PDF
+	 */
 	public void setStatement(File f) {
 		this.file = f;
 		allTrans.clear();
 	}
-	public void setStatement(String f) {
-		this.file = new File(f);
+	
+	/**
+	 * Creates a File object using filename param and clears ArrayList of
+	 * extracted transactions.
+	 * @param filename - Full name of the Chase Bank Statement PDF
+	 */
+	public void setStatement(String filename) {
+		this.file = new File(filename);
 		allTrans.clear();
 	}
 	
