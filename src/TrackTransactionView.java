@@ -28,14 +28,10 @@ import javafx.scene.text.Text;
 public class TrackTransactionView {
 
 	VBox main;
-	HBox topSection;
-	HBox botSection;
 	LineChart<String,Number> chart;
 	CategoryAxis xAxis;
 	NumberAxis yAxis;
 	Series<String,Number> series;
-	
-	GridPane grid;
 
 	Text text;
 	Label heading;
@@ -54,11 +50,10 @@ public class TrackTransactionView {
 	public TrackTransactionView() {
 		randSeries = new XYChart.Series<>();		// DEBUGGING
 		main = new VBox();
-		topSection = createTopSection();
-		botSection = createBotSection();
+		HBox topSection = createTopSection();
+		HBox botSection = createBotSection();
 		
-		main.getChildren().add( topSection );
-		main.getChildren().add( botSection );
+		main.getChildren().addAll( topSection, botSection );
 		main.getStyleClass().add("centerVbox");
 	}
 	
@@ -88,8 +83,8 @@ public class TrackTransactionView {
 	
 	private HBox createTopSection() {
     	HBox hbox = new HBox();
+    	GridPane grid = createInputFieldsSection();
     	chart = createLineChart();
-    	grid = createInputFieldsSection();
     	
     	HBox.setHgrow(chart, Priority.ALWAYS);
     	
@@ -221,7 +216,11 @@ public class TrackTransactionView {
     	return table;
     }
     
-    public void addToTable(List<Transaction> rows) {
+    /**
+     * Clears contents of table and sets the 
+     * @param rows
+     */
+    public void setToTable(List<Transaction> rows) {
     	table.getItems().clear();
     	table.getItems().addAll(rows);
     }
@@ -232,7 +231,7 @@ public class TrackTransactionView {
     
     /**
      * Using the date and amount of a Transaction, plots a point
-     * onto the LineChart. 
+     * onto the LineChart.  (Showing off lambdas here)
      * @param transactions
      */
     public void setPoints( List<Transaction> transactions ) {
@@ -242,12 +241,26 @@ public class TrackTransactionView {
     		points.add( new XYChart.Data<String,Number>(t.date.toString(), t.amount) );
     	
     	series.getData().setAll(points);
-    	series.getData().sort( (XYChart.Data<String,Number> o1, XYChart.Data<String,Number> o2) -> { 
-				return o1.getXValue().compareTo( o2.getXValue() );
-			} 
-    	); // <--- close sort()
+    
+  /*  	
+    	// Long version
+//    	series.getData().sort( (XYChart.Data<String,Number> o1, XYChart.Data<String,Number> o2) -> { 
+//				return o1.getXValue().compareTo( o2.getXValue() );
+//			} 
+//    	); // <--- close sort()
+//    	
     	
+// -----------------------------    	
     	
+    	// Short version
+//    	series.getData().sort( (data1, data2) -> { 
+//			return data1.getXValue().compareTo( data2.getXValue() );
+//			} 
+//    	); // <--- close sort()
+//    	
+  */
+    	// Shorter version 
+    	series.getData().sort( (o1, o2) ->  o1.getXValue().compareTo( o2.getXValue() )); // <--- close sort()
     }
     
     // FOR DEBUGGING / TESTING

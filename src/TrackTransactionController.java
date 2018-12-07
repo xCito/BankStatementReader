@@ -9,57 +9,50 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class TrackTransactionController {
-	
-	LineChart<String,Number> chart;
-	TableView<Transaction> table;
-	TextField input;
-	DatePicker fromDate;
-	DatePicker toDate;
-	Button analyzeBtn;
+
+	TextField input;				// Reference to view's TextField
+	DatePicker fromDate;			// Reference to view's DatePicker from
+	DatePicker toDate;				// Reference to view's DatePicker to
 	
 	TrackTransactionView view;
 	TrackTransactionModel model;
 	
-	LocalDate debugDate;
-	
 	public TrackTransactionController () {
 		
-		debugDate = LocalDate.of(1990, 1, 1);
+		view 		= new TrackTransactionView();			// The view
+		model 		= new TrackTransactionModel();			// The model
+		input		= view.getTransactionTextField();		// view's TextField 
+		fromDate	= view.getFromDatePicker();				// view's DatePicker from
+		toDate		= view.getToDatePicker();				// view's DatePicket to
 		
-		view 		= new TrackTransactionView();
-		model 		= new TrackTransactionModel();
-		chart 		= view.getChart();
-		table 		= view.getTable();
-		input		= view.getTransactionTextField();
-		fromDate	= view.getFromDatePicker();
-		toDate		= view.getToDatePicker();
-		analyzeBtn  = view.getAnalyzeButton();
-		analyzeBtn.setOnAction( e -> buttonAction() );
+		view.getAnalyzeButton().setOnAction( e -> buttonAction() );	// Set button event listener
 	}
 	
+	/**
+	 * @return VBox - Container for TrackTransaction View
+	 */
 	public VBox getView() {
 		return view.getView();
 	}
 	
-	// Handle button click
+
+	/**
+	 * Event Action for ANALYZE button
+	 * Gets input from TextField and both DatePickers. Gets transactions
+	 * containing substring from input and within specified dates. 
+	 * Populates table and Plots line chart.
+	 */
 	public void buttonAction() {
 		String transactionName = input.getText();
 		LocalDate from = fromDate.getValue();
 		LocalDate to = toDate.getValue();
 		
 		List<Transaction> result = model.getTransactionsBetween(transactionName, from, to);
-		view.addToTable(result);
+		view.setToTable(result);
 		view.setPoints(result);
-	
-		//view.addRandomPoint(debugDate);
-		//debugDate = debugDate.plusMonths(1);
 	}
-	
-	// Handle plotting data points
-	
-	// Handle populating table with data
-	
-	// Handle filling out text description
+
+	// TODO: Handle filling out text description
 	
 	
 }

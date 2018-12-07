@@ -30,7 +30,11 @@ public class Transaction {
 		return date.toString();
 	}
 	public String getDateFormatted() {
-		return date.getMonth().getDisplayName(TextStyle.SHORT, Locale.US) + " " + date.getDayOfMonth() + ", " + date.getYear();
+		String str = "";
+		str += date.getMonth().getDisplayName(TextStyle.SHORT, Locale.US) + " ";
+		str += date.getDayOfMonth() + ", ";
+		str += date.getYear();
+		return  str;
 	}
 	
 	
