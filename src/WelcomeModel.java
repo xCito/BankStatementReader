@@ -12,69 +12,55 @@ import javafx.scene.image.Image;
 
 public class WelcomeModel {
 	
-	
 	List<File> files;
 	List<Image> images;
-	List<PDDocument> pdfs;
 	
 	public WelcomeModel() {
 		files = new ArrayList<>();
 		images = new ArrayList<>();
-		pdfs = new ArrayList<>();
 	}
 	
-	
-	public int getNumFiles() {
-		return files.size();
-	}
-	
-	// deletes all previous elements
-	// and sets new list of elements as values in list
+	/**
+	 * Clears List of files and images held. Adds all elements
+	 * from 'listOfFiles'. 
+	 * @param listOfFiles - Collection of Files (PDF)
+	 */
 	public void setFiles(List<File> listOfFiles) {
 		images.clear();
-		pdfs.clear();
 		files.clear();
 		
 		files.addAll(listOfFiles);
+	}
 
-		try {
-			for( File file: files) {
-				PDDocument pdfFile;
-				pdfFile = PDDocument.load(file);	
-				pdfs.add( pdfFile );
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	public void addFile( String filename ) {
-		files.add( new File(filename) );
-	}
-	public void addFile( File file ) {
-		files.add(file);
-	}
-	public void removeFile( int index ) {
-		files.remove(index);
-	}
-	
+	/**
+	 * Renders each PDF's first page as an image 
+	 * @return Collection of images of the first page for each PDF.
+	 */
 	public List<Image> getImagesOfPDF() {
 		float SCALE = 0.5f;
 		
 		try {
-			for(PDDocument pdf: pdfs) {
-				PDFRenderer rend = new PDFRenderer(pdf);
-				BufferedImage buff = rend.renderImage(0, SCALE);
-				Image img = SwingFXUtils.toFXImage(buff, null);
-				images.add( img );
-				pdf.close();
+			for(File pdf: files) {
+				PDDocument pdfFile = PDDocument.load(pdf);			// Load PDF as Object
+				PDFRenderer rend = new PDFRenderer(pdfFile);		// Render Images from PDF
+				BufferedImage buff = rend.renderImage(0, SCALE);	// Get image of page 0, scaled
+				Image img = SwingFXUtils.toFXImage(buff, null);		// Cast BufferedImage to Image
+				images.add( img );								// Add to list of files
+				pdfFile.close();								// Close stream
 			}
 		} catch(IOException e) {
 			System.out.println(e);
 		}
 		
-		return images;
+		return new ArrayList<>(images);		// Returns shallow copy of images
 	}
 	
+	/**
+	 * Using ChaseStatementAnalyzer.java, extracts Transaction information
+	 * from each PDF. Assuming its a Chase Bank Statement PDF. Stores Extracted
+	 * Transaction information into HashMap.
+	 * @param pdfFiles - List of Chase Bank Statement PDF(s).
+	 */
 	public void extractData(List<File> pdfFiles) {
 		ChaseStatementAnalyzer chase = new ChaseStatementAnalyzer();
 		
@@ -82,10 +68,10 @@ public class WelcomeModel {
 			System.out.println("Name: " + pdf.getName());
 			chase.setStatement(pdf);
 			chase.analyze();
+			
 			ArrayList<Transaction> trans = chase.getTransactions();
 			ApplicationController.data.put(pdf.getName(), trans);
 		}
 	}
-	
-	
+
 }

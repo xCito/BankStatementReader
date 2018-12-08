@@ -34,6 +34,10 @@ public class WelcomeController {
 		return view.getView();
 	}
 	
+	/**
+	 * Initialized FileChooser and specifies to hold retrieve PDF files
+	 * @return Instance of FileChooser
+	 */
 	private FileChooser setUpFileChooser() {
 		FileChooser chooser = new FileChooser();
 		chooser.getExtensionFilters().add(
@@ -42,14 +46,27 @@ public class WelcomeController {
 		return chooser;
 	}
 	
+	/**
+	 * Event Action for button click. Opens the FileChooser.
+	 * If File(s) were retrieved, 
+	 * 		- Hold PDF in data structure.
+	 * 		- Attempt to Extract Transaction Data. 
+	 * 		- Get Thumbnail of first page.
+	 * 		- Set images in ListView
+	 */
 	private void fileButtonAction() {
 		List<File> files = chooser.showOpenMultipleDialog(stage);
 		if( files != null ) {
+			
 			model.setFiles( files );
-			view.numFilesLbl.setText("Number of BankStatements Attached: " + model.getNumFiles());
+			model.extractData(files);
+			
 			List<Image> images = model.getImagesOfPDF();
 			view.setImages(images);
-			model.extractData(files);
+			
+			view.numFilesLbl.setText("Number of BankStatements Attached: " 
+					+ files.size());
+			
 		}
 	}
 	
