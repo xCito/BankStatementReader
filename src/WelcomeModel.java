@@ -22,12 +22,13 @@ public class WelcomeModel {
 	
 	/**
 	 * Clears List of files and images held. Adds all elements
-	 * from 'listOfFiles'. 
+	 * from 'listOfFiles'. Clear main data structure.
 	 * @param listOfFiles - Collection of Files (PDF)
 	 */
 	public void setFiles(List<File> listOfFiles) {
 		images.clear();
 		files.clear();
+		ApplicationController.data.clear();
 		
 		files.addAll(listOfFiles);
 	}
