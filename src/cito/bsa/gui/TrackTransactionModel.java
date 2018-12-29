@@ -1,5 +1,9 @@
+package cito.bsa.gui;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import cito.bsa.Transaction;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -22,8 +26,8 @@ public class TrackTransactionModel {
 		
 		// Filter list of Transaction and keep those : FROM <= date <= TO
 		List<Transaction> result = listByName.stream()
-				  .filter( t -> (t.date.isAfter(from) || t.date.isEqual(from)) && 
-						         (t.date.isBefore(to)) || t.date.isEqual(to))
+				  .filter( t -> (t.getLocalDate().isAfter(from) || t.getLocalDate().isEqual(from)) && 
+						         (t.getLocalDate().isBefore(to)) || t.getLocalDate().isEqual(to))
 				  .collect(Collectors.toList());
 
 		return result;
@@ -47,7 +51,7 @@ public class TrackTransactionModel {
 			
 			// Filter for transactions that contain substring 'transName'
 			List<Transaction> contains = list.stream()						
-				.filter( e -> e.name.toLowerCase().contains(transName.toLowerCase()) )	// CASE INSENSITIVE
+				.filter( e -> e.getName().toLowerCase().contains(transName.toLowerCase()) )	// CASE INSENSITIVE
 				.collect(Collectors.toList());
 			
 			matched.addAll(contains);									

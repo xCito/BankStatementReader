@@ -1,3 +1,4 @@
+package cito.bsa.extract;
 /*
  * ASSUMPTIONS
  *   - The bank statement is from CHASE bank. 
@@ -15,6 +16,7 @@
  *   	transactions.
  */
 
+import cito.bsa.Transaction;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+
 
 public class ChaseStatementAnalyzer {
 	

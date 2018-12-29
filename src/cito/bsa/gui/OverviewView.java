@@ -1,3 +1,4 @@
+package cito.bsa.gui;
 import java.util.List;
 
 import javafx.collections.FXCollections;

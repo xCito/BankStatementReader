@@ -1,7 +1,9 @@
+package cito.bsa.gui;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import cito.bsa.Transaction;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -254,7 +256,7 @@ public class TrackTransactionView {
     	List<XYChart.Data<String,Number>> points = new ArrayList<>();
     	
     	for(Transaction t: transactions) 
-    		points.add( new XYChart.Data<String,Number>(t.date.toString(), t.amount) );
+    		points.add( new XYChart.Data<String,Number>( t.getLocalDate().toString(), t.getAmount()) );
     	
     	series.getData().setAll(points); 												 // Set new Data points 
     	series.getData().sort( (o1, o2) ->  o1.getXValue().compareTo( o2.getXValue() )); // Sort Data Points

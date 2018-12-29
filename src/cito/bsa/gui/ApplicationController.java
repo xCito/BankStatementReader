@@ -1,6 +1,8 @@
+package cito.bsa.gui;
 import java.util.HashMap;
 import java.util.List;
 
+import cito.bsa.Transaction;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;

@@ -1,6 +1,8 @@
+package cito.bsa.gui;
 import java.time.LocalDate;
 import java.util.List;
 
+import cito.bsa.Transaction;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;

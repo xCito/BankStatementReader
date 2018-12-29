@@ -1,13 +1,15 @@
+package cito.bsa;
+
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
 public class Transaction {
 	
-	String name;
-	LocalDate date;
-	double amount;
-	String type; 		//(expense, deposit, withdraw)
+	protected String name;
+	protected LocalDate date;
+	protected double amount;
+	protected String type; 		//(expense, deposit, withdraw)
 	
 	public Transaction(String nm, double amt, LocalDate dt, String tp) {
 		this.name = nm;
@@ -28,6 +30,9 @@ public class Transaction {
 	}
 	public String getDate() {
 		return date.toString();
+	}
+	public LocalDate getLocalDate() {
+		return date;
 	}
 	public String getDateFormatted() {
 		String str = "";
