@@ -14,7 +14,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class WelcomeView {
+public class OverviewView {
 
 	VBox main;
 	Text heading1;
@@ -24,7 +24,7 @@ public class WelcomeView {
 	ListView<Image> listview;
 	ObservableList<Image> imgList;
 	
-	public WelcomeView() {
+	public OverviewView() {
 		imgList = FXCollections.observableArrayList();
 		main = createWelcomeView();
 	}

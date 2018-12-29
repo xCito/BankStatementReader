@@ -9,20 +9,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class WelcomeController {
+public class OverviewController {
 
 	Stage stage;
 	FileChooser chooser;
 	Button fileBtn;
 	
-	WelcomeView view;
-	WelcomeModel model;
+	OverviewView view;
+	OverviewModel model;
 	
 	
-	public WelcomeController( Stage primaryStage ) {
+	public OverviewController( Stage primaryStage ) {
 		stage = primaryStage;
-		view = new WelcomeView();
-		model = new WelcomeModel();
+		view = new OverviewView();
+		model = new OverviewModel();
 		
 		chooser = setUpFileChooser();
 		

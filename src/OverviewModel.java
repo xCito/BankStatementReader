@@ -10,12 +10,12 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
-public class WelcomeModel {
+public class OverviewModel {
 	
 	List<File> files;
 	List<Image> images;
 	
-	public WelcomeModel() {
+	public OverviewModel() {
 		files = new ArrayList<>();
 		images = new ArrayList<>();
 	}

@@ -22,7 +22,7 @@ public class ApplicationController extends Application{
     	data = new HashMap<String, List<Transaction>>();		// Data structure
     	
     	// The Views
-    	WelcomeController welcomeView 		   = new WelcomeController( primaryStage );
+    	OverviewController welcomeView 		   = new OverviewController( primaryStage );
     	SideNavigationView navView 			   = new SideNavigationView();
     	TrackTransactionController trackView   = new TrackTransactionController();
     	AllTransactionsController allTransView = new AllTransactionsController();
