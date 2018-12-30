@@ -1,4 +1,4 @@
-package Tests;
+package tests;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,14 +68,14 @@ public class PatternMatchingTest {
 		System.out.println("Bank of America Tests: ");
 		for(String input: inputs) {
 			System.out.println(test.match1(bankOfAmericaRegex, input));
-			Arrays.stream(test.getGroups()).forEach(x -> System.out.println("\t>"+x));
+			//Arrays.stream(test.getGroups()).forEach(x -> System.out.println("\t>"+x));
 		}
 		
 		// JPMORGAN CHASE
 		System.out.println("JP Morgan Chase Tests: ");
 		for(String input: inputs) {
 			System.out.println(test.match1(jpMorganChaseRegex, input));
-			Arrays.stream(test.getGroups()).forEach(x -> System.out.println("\t>"+x));
+			//Arrays.stream(test.getGroups()).forEach(x -> System.out.println("\t>"+x));
 		}
 	}
 	
