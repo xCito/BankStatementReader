@@ -67,14 +67,14 @@ public class PatternMatchingTest {
 		// BANK OF AMERICA 
 		System.out.println("Bank of America Tests: ");
 		for(String input: inputs) {
-			System.out.println(test.match1(bankOfAmericaRegex, input));
+			System.out.println("\t" + test.match1(bankOfAmericaRegex, input));
 			//Arrays.stream(test.getGroups()).forEach(x -> System.out.println("\t>"+x));
 		}
 		
 		// JPMORGAN CHASE
 		System.out.println("JP Morgan Chase Tests: ");
 		for(String input: inputs) {
-			System.out.println(test.match1(jpMorganChaseRegex, input));
+			System.out.println("\t" + test.match1(jpMorganChaseRegex, input));
 			//Arrays.stream(test.getGroups()).forEach(x -> System.out.println("\t>"+x));
 		}
 	}
