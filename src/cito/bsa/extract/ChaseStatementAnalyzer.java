@@ -118,7 +118,7 @@ public class ChaseStatementAnalyzer {
 		Pattern tranPatt = Pattern.compile(dateRegex + "\\s(.*)" + moneyRegex);
 		Matcher matchYear = yearPatt.matcher(text);
 		Matcher matchTrans = tranPatt.matcher(text);
-		
+	
 		String year = "2000";
 		//int monthInt;
 		
@@ -195,6 +195,18 @@ public class ChaseStatementAnalyzer {
 	public void setStatement(String filename) {
 		this.file = new File(filename);
 		allTrans.clear();
+	}
+	
+	/**
+	 * Tests if a line containing transaction information from bank
+	 * statement is matched by this pattern.
+	 * @param transaction - Single Transaction
+	 * @return - True, if matched
+	 *          False, not matched
+	 */
+	public boolean patternTest(String transaction) {
+		String regex = "(\\d\\d/\\d\\d)\\s(.*)\\s\\$?([\\d,]+\\.\\d\\d)";
+		return transaction.matches(regex);
 	}
 	
 }
